@@ -17,10 +17,18 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_format_unchanged() {
-        let input = "This is a test input.\nIt will be echoed back.\n";
+    fn basic_feature_good() {
+        let input = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join";
+
         let expected = input.to_string();
         let result = format(input);
-        assert_eq!(result, expected, "The format function should return the input unchanged.");
+        assert_eq!(
+            result, expected,
+            "The format function should leave correct indentation as is."
+        );
     }
 }
