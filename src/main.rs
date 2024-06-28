@@ -28,7 +28,9 @@ Feature: Guess the word
         let result = format(input);
         assert_eq!(
             result, expected,
-            "The format function should leave correct indentation as is."
+            "The formatter should leave correct indentation as is."
+        );
+    }
         );
     }
 }
