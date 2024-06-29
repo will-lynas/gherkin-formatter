@@ -1,3 +1,5 @@
+use crate::config::TrailingNewlineOption;
+
 use super::*;
 
 #[test]
@@ -39,5 +41,89 @@ Feature: Guess the word
     assert_eq!(
         result, expected,
         "The formatter should indent the feature correctly."
+    );
+}
+
+#[test]
+fn newline_unchanged_newline() {
+    let input = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let expected = input.to_string();
+    let config = FormatterConfig {
+        add_trailing_newline: TrailingNewlineOption::NoChange,
+        ..Default::default()
+    };
+    let result = format(input, &config);
+    assert_eq!(
+        result, expected,
+        "With no change set, a newline should be left unchanged"
+    );
+}
+
+#[test]
+fn newline_unchanged_no_newline() {
+    let input = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join";
+    let expected = input.to_string();
+    let config = FormatterConfig {
+        add_trailing_newline: TrailingNewlineOption::NoChange,
+        ..Default::default()
+    };
+    let result = format(input, &config);
+    assert_eq!(
+        result, expected,
+        "With no change set, a missing newline should remain missing"
+    );
+}
+
+#[test]
+fn newline_add_newline() {
+    let input = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let expected = input.to_string();
+    let config = FormatterConfig {
+        add_trailing_newline: TrailingNewlineOption::Add,
+        ..Default::default()
+    };
+    let result = format(input, &config);
+    assert_eq!(
+        result, expected,
+        "With add newline set, a newline should remain unchanged"
+    );
+}
+
+#[test]
+fn newline_add_no_newline() {
+    let input = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join";
+    let expected = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+"
+    .to_string();
+    let config = FormatterConfig {
+        add_trailing_newline: TrailingNewlineOption::Add,
+        ..Default::default()
+    };
+    let result = format(input, &config);
+    assert_eq!(
+        result, expected,
+        "With add newline set, a missing newline should be added"
     );
 }
