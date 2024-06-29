@@ -6,7 +6,8 @@ fn basic_feature_good() {
 Feature: Guess the word
   Scenario: Maker starts a game
     When the Maker starts a game
-    Then the Maker waits for a Breaker to join";
+    Then the Maker waits for a Breaker to join
+";
 
     let expected = input.to_string();
     let result = format(input);
@@ -22,14 +23,16 @@ fn basic_feature_bad() {
 Feature: Guess the word
 Scenario: Maker starts a game
 When the Maker starts a game
-Then the Maker waits for a Breaker to join";
+Then the Maker waits for a Breaker to join
+";
 
     let expected = "\
 Feature: Guess the word
   Scenario: Maker starts a game
     When the Maker starts a game
-    Then the Maker waits for a Breaker to join"
-        .to_string();
+    Then the Maker waits for a Breaker to join
+"
+    .to_string();
 
     let result = format(input);
     assert_eq!(
