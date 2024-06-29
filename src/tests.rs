@@ -13,7 +13,8 @@ Feature: Guess the word
 
     let expected = input.to_string();
     let config = FormatterConfig::default();
-    let result = format(input, &config);
+    let formatter = Formatter::new(input, config);
+    let result = formatter.format();
     assert_eq!(
         result, expected,
         "The formatter should leave correct indentation as is."
@@ -37,7 +38,8 @@ Feature: Guess the word
 "
     .to_string();
     let config = FormatterConfig::default();
-    let result = format(input, &config);
+    let formatter = Formatter::new(input, config);
+    let result = formatter.format();
     assert_eq!(
         result, expected,
         "The formatter should indent the feature correctly."
@@ -57,7 +59,8 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::NoChange,
         ..Default::default()
     };
-    let result = format(input, &config);
+    let formatter = Formatter::new(input, config);
+    let result = formatter.format();
     assert_eq!(
         result, expected,
         "With no change set, a newline should be left unchanged"
@@ -76,7 +79,8 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::NoChange,
         ..Default::default()
     };
-    let result = format(input, &config);
+    let formatter = Formatter::new(input, config);
+    let result = formatter.format();
     assert_eq!(
         result, expected,
         "With no change set, a missing newline should remain missing"
@@ -96,7 +100,8 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::Add,
         ..Default::default()
     };
-    let result = format(input, &config);
+    let formatter = Formatter::new(input, config);
+    let result = formatter.format();
     assert_eq!(
         result, expected,
         "With add newline set, a newline should remain unchanged"
@@ -121,7 +126,8 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::Add,
         ..Default::default()
     };
-    let result = format(input, &config);
+    let formatter = Formatter::new(input, config);
+    let result = formatter.format();
     assert_eq!(
         result, expected,
         "With add newline set, a missing newline should be added"
