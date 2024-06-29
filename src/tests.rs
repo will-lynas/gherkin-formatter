@@ -17,8 +17,8 @@ Feature: Guess the word
     Then the Maker waits for a Breaker to join
 ";
     let config = FormatterConfig::default();
-    let formatter = Formatter::new(input, config);
-    let result = formatter.format();
+    let formatter = Formatter::new(config);
+    let result = formatter.format(input);
     assert_eq!(
         result, expected,
         "The formatter should leave correct indentation as is."
@@ -41,8 +41,8 @@ Feature: Guess the word
     Then the Maker waits for a Breaker to join
 ";
     let config = FormatterConfig::default();
-    let formatter = Formatter::new(input, config);
-    let result = formatter.format();
+    let formatter = Formatter::new(config);
+    let result = formatter.format(input);
     assert_eq!(
         result, expected,
         "The formatter should indent the feature correctly."
@@ -64,8 +64,8 @@ Feature: Guess the word
     Then the Maker waits for a Breaker to join
 ";
     let config = FormatterConfig::default();
-    let formatter = Formatter::new(input, config);
-    let result = formatter.format();
+    let formatter = Formatter::new(config);
+    let result = formatter.format(input);
     assert_eq!(
         result, expected,
         "The formatter should indent the badly formatted feature correctly."
@@ -90,8 +90,8 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::NoChange,
         ..Default::default()
     };
-    let formatter = Formatter::new(input, config);
-    let result = formatter.format();
+    let formatter = Formatter::new(config);
+    let result = formatter.format(input);
     assert_eq!(
         result, expected,
         "With no change set, a newline should be left unchanged"
@@ -114,8 +114,8 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::NoChange,
         ..Default::default()
     };
-    let formatter = Formatter::new(input, config);
-    let result = formatter.format();
+    let formatter = Formatter::new(config);
+    let result = formatter.format(input);
     assert_eq!(
         result, expected,
         "With no change set, a missing newline should remain missing"
@@ -140,8 +140,8 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::Add,
         ..Default::default()
     };
-    let formatter = Formatter::new(input, config);
-    let result = formatter.format();
+    let formatter = Formatter::new(config);
+    let result = formatter.format(input);
     assert_eq!(
         result, expected,
         "With add newline set, a newline should remain unchanged"
@@ -165,8 +165,8 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::Add,
         ..Default::default()
     };
-    let formatter = Formatter::new(input, config);
-    let result = formatter.format();
+    let formatter = Formatter::new(config);
+    let result = formatter.format(input);
     assert_eq!(
         result, expected,
         "With add newline set, a missing newline should be added"

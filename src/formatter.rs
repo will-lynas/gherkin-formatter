@@ -2,21 +2,18 @@ use crate::config;
 use crate::config::FormatterConfig;
 
 pub struct Formatter {
-    pub input: String,
     pub config: FormatterConfig,
 }
 
 impl Formatter {
-    pub fn new(input: &str, config: FormatterConfig) -> Self {
-        Self {
-            input: input.to_string(),
-            config,
-        }
+    pub fn new(config: FormatterConfig) -> Self {
+        Self { config }
     }
-    pub fn format(self) -> String {
-        let has_trailing_newline = self.input.ends_with('\n');
+
+    pub fn format(self, input: &str) -> String {
+        let has_trailing_newline = input.ends_with('\n');
         let mut result = String::new();
-        for line in self.input.lines().map(|line| line.trim_start()) {
+        for line in input.lines().map(|line| line.trim_start()) {
             if line.starts_with("Feature:") {
                 result.push_str(line);
             } else if line.starts_with("Scenario:") {
