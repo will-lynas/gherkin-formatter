@@ -10,7 +10,8 @@ Feature: Guess the word
 ";
 
     let expected = input.to_string();
-    let result = format(input);
+    let config = FormatterConfig::default();
+    let result = format(input, &config);
     assert_eq!(
         result, expected,
         "The formatter should leave correct indentation as is."
@@ -33,8 +34,8 @@ Feature: Guess the word
     Then the Maker waits for a Breaker to join
 "
     .to_string();
-
-    let result = format(input);
+    let config = FormatterConfig::default();
+    let result = format(input, &config);
     assert_eq!(
         result, expected,
         "The formatter should indent the feature correctly."
