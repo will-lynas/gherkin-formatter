@@ -1,10 +1,9 @@
 pub mod config;
 pub mod formatter;
 
+use config::FormatterConfig;
 use formatter::Formatter;
 use std::io::{self, Read, Write};
-
-use config::FormatterConfig;
 
 fn main() -> io::Result<()> {
     let mut buffer = String::new();
