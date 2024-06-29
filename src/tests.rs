@@ -10,8 +10,12 @@ Feature: Guess the word
     When the Maker starts a game
     Then the Maker waits for a Breaker to join
 ";
-
-    let expected = input.to_string();
+    let expected = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
     let config = FormatterConfig::default();
     let formatter = Formatter::new(input, config);
     let result = formatter.format();
@@ -22,7 +26,7 @@ Feature: Guess the word
 }
 
 #[test]
-fn basic_feature_bad() {
+fn basic_feature_no_indents() {
     let input = "\
 Feature: Guess the word
 Scenario: Maker starts a game
@@ -35,8 +39,7 @@ Feature: Guess the word
   Scenario: Maker starts a game
     When the Maker starts a game
     Then the Maker waits for a Breaker to join
-"
-    .to_string();
+";
     let config = FormatterConfig::default();
     let formatter = Formatter::new(input, config);
     let result = formatter.format();
@@ -54,7 +57,12 @@ Feature: Guess the word
     When the Maker starts a game
     Then the Maker waits for a Breaker to join
 ";
-    let expected = input.to_string();
+    let expected = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
     let config = FormatterConfig {
         add_trailing_newline: TrailingNewlineOption::NoChange,
         ..Default::default()
@@ -74,7 +82,11 @@ Feature: Guess the word
   Scenario: Maker starts a game
     When the Maker starts a game
     Then the Maker waits for a Breaker to join";
-    let expected = input.to_string();
+    let expected = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join";
     let config = FormatterConfig {
         add_trailing_newline: TrailingNewlineOption::NoChange,
         ..Default::default()
@@ -95,7 +107,12 @@ Feature: Guess the word
     When the Maker starts a game
     Then the Maker waits for a Breaker to join
 ";
-    let expected = input.to_string();
+    let expected = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
     let config = FormatterConfig {
         add_trailing_newline: TrailingNewlineOption::Add,
         ..Default::default()
@@ -120,8 +137,7 @@ Feature: Guess the word
   Scenario: Maker starts a game
     When the Maker starts a game
     Then the Maker waits for a Breaker to join
-"
-    .to_string();
+";
     let config = FormatterConfig {
         add_trailing_newline: TrailingNewlineOption::Add,
         ..Default::default()
