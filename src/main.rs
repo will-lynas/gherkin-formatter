@@ -14,6 +14,7 @@ fn main() -> io::Result<()> {
 }
 
 fn format(input: &str, config: &FormatterConfig) -> String {
+    let has_trailing_newline = input.ends_with('\n');
     let mut result = String::new();
     for line in input.lines() {
         if line.starts_with("Feature:") {
@@ -28,6 +29,18 @@ fn format(input: &str, config: &FormatterConfig) -> String {
             result.push_str(line);
         }
         result.push('\n');
+    }
+    if let Some('\n') = result.chars().last() {
+        result.pop();
+    }
+    match (has_trailing_newline, &config.add_trailing_newline) {
+        (_, config::TrailingNewlineOption::Add) => {
+            result.push('\n');
+        }
+        (true, config::TrailingNewlineOption::NoChange) => {
+            result.push('\n');
+        }
+        (false, config::TrailingNewlineOption::NoChange) => {}
     }
     result
 }
