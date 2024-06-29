@@ -16,7 +16,7 @@ impl Formatter {
     pub fn format(self) -> String {
         let has_trailing_newline = self.input.ends_with('\n');
         let mut result = String::new();
-        for line in self.input.lines() {
+        for line in self.input.lines().map(|line| line.trim_start()) {
             if line.starts_with("Feature:") {
                 result.push_str(line);
             } else if line.starts_with("Scenario:") {
