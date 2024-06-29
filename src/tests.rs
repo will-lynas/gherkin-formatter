@@ -50,6 +50,29 @@ Feature: Guess the word
 }
 
 #[test]
+fn basic_feature_bad_indents() {
+    let input = "\
+      Feature: Guess the word
+            Scenario: Maker starts a game
+  When the Maker starts a game
+      Then the Maker waits for a Breaker to join
+";
+    let expected = "\
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let config = FormatterConfig::default();
+    let formatter = Formatter::new(input, config);
+    let result = formatter.format();
+    assert_eq!(
+        result, expected,
+        "The formatter should indent the badly formatted feature correctly."
+    );
+}
+
+#[test]
 fn newline_unchanged_newline() {
     let input = "\
 Feature: Guess the word
