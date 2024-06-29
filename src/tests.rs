@@ -17,7 +17,7 @@ Feature: Guess the word
     Then the Maker waits for a Breaker to join
 ";
     let config = FormatterConfig::default();
-    let formatter = Formatter::new(config);
+    let mut formatter = Formatter::new(config);
     let result = formatter.format(input);
     assert_eq!(
         result, expected,
@@ -41,7 +41,7 @@ Feature: Guess the word
     Then the Maker waits for a Breaker to join
 ";
     let config = FormatterConfig::default();
-    let formatter = Formatter::new(config);
+    let mut formatter = Formatter::new(config);
     let result = formatter.format(input);
     assert_eq!(
         result, expected,
@@ -64,7 +64,7 @@ Feature: Guess the word
     Then the Maker waits for a Breaker to join
 ";
     let config = FormatterConfig::default();
-    let formatter = Formatter::new(config);
+    let mut formatter = Formatter::new(config);
     let result = formatter.format(input);
     assert_eq!(
         result, expected,
@@ -90,7 +90,7 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::NoChange,
         ..Default::default()
     };
-    let formatter = Formatter::new(config);
+    let mut formatter = Formatter::new(config);
     let result = formatter.format(input);
     assert_eq!(
         result, expected,
@@ -114,7 +114,7 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::NoChange,
         ..Default::default()
     };
-    let formatter = Formatter::new(config);
+    let mut formatter = Formatter::new(config);
     let result = formatter.format(input);
     assert_eq!(
         result, expected,
@@ -140,7 +140,7 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::Add,
         ..Default::default()
     };
-    let formatter = Formatter::new(config);
+    let mut formatter = Formatter::new(config);
     let result = formatter.format(input);
     assert_eq!(
         result, expected,
@@ -165,7 +165,7 @@ Feature: Guess the word
         add_trailing_newline: TrailingNewlineOption::Add,
         ..Default::default()
     };
-    let formatter = Formatter::new(config);
+    let mut formatter = Formatter::new(config);
     let result = formatter.format(input);
     assert_eq!(
         result, expected,

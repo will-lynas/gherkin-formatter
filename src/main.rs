@@ -9,7 +9,7 @@ fn main() -> io::Result<()> {
     let mut buffer = String::new();
     io::stdin().read_to_string(&mut buffer)?;
     let config = FormatterConfig::default();
-    let formatter = Formatter::new(config);
+    let mut formatter = Formatter::new(config);
     let formatted = formatter.format(&buffer);
     io::stdout().write_all(formatted.as_bytes())?;
     Ok(())
