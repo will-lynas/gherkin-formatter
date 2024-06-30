@@ -221,3 +221,45 @@ Feature: Guess the word
         "A feature with a body should be indented correctly"
     );
 }
+
+#[test]
+fn rules_and_examples() {
+    let input = "\
+Feature: Highlander
+
+Rule: There can be only One
+
+Example: Only One -- More than one alive
+Given there are 3 ninjas
+And there are more than one ninja alive
+When 2 ninjas meet, they will fight
+Then one ninja dies (but not me)
+And there is one ninja less alive
+
+Example: Only One -- One alive
+Given there is only 1 ninja alive
+Then he (or she) will live forever ;-)
+";
+    let expected = "\
+Feature: Highlander
+
+  Rule: There can be only One
+
+    Example: Only One -- More than one alive
+      Given there are 3 ninjas
+      And there are more than one ninja alive
+      When 2 ninjas meet, they will fight
+      Then one ninja dies (but not me)
+      And there is one ninja less alive
+
+    Example: Only One -- One alive
+      Given there is only 1 ninja alive
+      Then he (or she) will live forever ;-)
+";
+    let mut formatter = Formatter::default();
+    let result = formatter.format(input);
+    assert_eq!(
+        result, expected,
+        "Rules and examples should be formatted correctly."
+    );
+}
