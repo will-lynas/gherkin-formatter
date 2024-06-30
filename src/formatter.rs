@@ -1,5 +1,11 @@
 use crate::config::FormatterConfig;
 
+#[derive(PartialEq)]
+enum Context {
+    Feature,
+    Scenario,
+}
+
 #[derive(Default)]
 pub struct Formatter {
     pub config: FormatterConfig,
@@ -17,24 +23,34 @@ impl Formatter {
 
     fn format_lines(&mut self) {
         let lines = self.input.as_ref().unwrap().split('\n');
+        let mut context_stack: Vec<Context> = Vec::new();
+
         for mut line in lines {
-            let mut result_line = String::new();
             if line.trim_start().starts_with('#') {
-                result_line.push_str(line);
-            } else {
-                line = line.trim_start();
-                if line.starts_with("Feature:") {
-                    result_line.push_str(line);
-                } else if line.starts_with("Scenario:") {
-                    result_line.push_str(&" ".repeat(self.config.indent_size));
-                    result_line.push_str(line);
-                } else if line.starts_with("When") || line.starts_with("Then") {
-                    result_line.push_str(&" ".repeat(self.config.indent_size * 2));
-                    result_line.push_str(line);
-                } else {
-                    result_line.push_str(line);
-                }
+                self.result.push(line.to_string());
+                continue;
             }
+
+            line = line.trim_start();
+
+            if line.is_empty() {
+                self.result.push("".to_string());
+                continue;
+            }
+
+            let mut result_line = String::new();
+
+            result_line.push_str(&" ".repeat(self.config.indent_size * context_stack.len()));
+            result_line.push_str(line);
+
+            if line.starts_with("Feature:") {
+                context_stack.push(Context::Feature);
+            } else if line.starts_with("Scenario:")
+                && context_stack.last().unwrap() != &Context::Scenario
+            {
+                context_stack.push(Context::Scenario);
+            }
+
             self.result.push(result_line);
         }
     }
