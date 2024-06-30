@@ -1,6 +1,6 @@
-use crate::config;
 use crate::config::FormatterConfig;
 
+#[derive(Default)]
 pub struct Formatter {
     pub config: FormatterConfig,
     input: Option<String>,
@@ -9,15 +9,6 @@ pub struct Formatter {
 }
 
 impl Formatter {
-    pub fn new(config: FormatterConfig) -> Self {
-        Self {
-            config,
-            input: None,
-            result: None,
-            has_trailing_newline: None,
-        }
-    }
-
     pub fn format(&mut self, input: &str) -> String {
         self.result = Some(String::new());
         self.input = Some(input.to_string());
@@ -53,6 +44,7 @@ impl Formatter {
                 result.push('\n');
             });
         self.result = Some(result);
+        self.remove_trailing_newline();
     }
 
     fn remove_trailing_newline(&mut self) {
@@ -62,19 +54,8 @@ impl Formatter {
     }
 
     fn fix_newline(&mut self) {
-        self.remove_trailing_newline();
-
-        match (
-            &self.has_trailing_newline.unwrap(),
-            &self.config.add_trailing_newline,
-        ) {
-            (_, config::TrailingNewlineOption::Add) => {
-                self.result.as_mut().unwrap().push('\n');
-            }
-            (true, config::TrailingNewlineOption::NoChange) => {
-                self.result.as_mut().unwrap().push('\n');
-            }
-            (false, config::TrailingNewlineOption::NoChange) => {}
+        if self.has_trailing_newline.unwrap() {
+            self.result.as_mut().unwrap().push('\n');
         }
     }
 }
