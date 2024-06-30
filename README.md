@@ -4,3 +4,4 @@ A stand alone binary that replicates how WebStorm formats `.feature` files.
 
 - Whitespace at the end of the file is not changed. This includes the presence of a trailing newline.
 - Indentation is 2 spaces.
+- Comments are completely unchanged.

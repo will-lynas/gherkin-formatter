@@ -128,3 +128,24 @@ Feature: Guess the word
     let result = formatter.format(input);
     assert_eq!(result, expected, "A trailing newline should not be added.");
 }
+
+#[test]
+fn comments_dont_change() {
+    let input = "\
+Feature: Guess the word
+       # comment
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let expected = "\
+Feature: Guess the word
+       # comment
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let mut formatter = Formatter::default();
+    let result = formatter.format(input);
+    assert_eq!(result, expected, "Comments are not changed.");
+}
