@@ -1,9 +1,11 @@
 use crate::config::FormatterConfig;
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 enum Context {
     Feature,
+    Rule,
     Scenario,
+    Example,
 }
 
 #[derive(Default)]
@@ -26,6 +28,8 @@ impl Formatter {
         let mut context_stack: Vec<Context> = Vec::new();
 
         for mut line in lines {
+            let mut new_context_stack = context_stack.clone();
+
             if line.trim_start().starts_with('#') {
                 self.result.push(line.to_string());
                 continue;
@@ -40,18 +44,32 @@ impl Formatter {
 
             let mut result_line = String::new();
 
-            result_line.push_str(&" ".repeat(self.config.indent_size * context_stack.len()));
-            result_line.push_str(line);
-
             if line.starts_with("Feature:") {
-                context_stack.push(Context::Feature);
-            } else if line.starts_with("Scenario:")
-                && context_stack.last().unwrap() != &Context::Scenario
-            {
-                context_stack.push(Context::Scenario);
+                new_context_stack.push(Context::Feature);
+            } else if line.starts_with("Scenario:") {
+                if context_stack.last().unwrap() == &Context::Scenario {
+                    context_stack.pop();
+                } else {
+                    new_context_stack.push(Context::Scenario);
+                }
+            } else if line.starts_with("Rule:") {
+                if context_stack.last().unwrap() == &Context::Rule {
+                    context_stack.pop();
+                } else {
+                    new_context_stack.push(Context::Rule);
+                }
+            } else if line.starts_with("Example:") {
+                if context_stack.last().unwrap() == &Context::Example {
+                    context_stack.pop();
+                } else {
+                    new_context_stack.push(Context::Example);
+                }
             }
 
+            result_line.push_str(&" ".repeat(self.config.indent_size * context_stack.len()));
+            result_line.push_str(line);
             self.result.push(result_line);
+            context_stack = new_context_stack;
         }
     }
 }
