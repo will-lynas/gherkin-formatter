@@ -149,3 +149,51 @@ Feature: Guess the word
     let result = formatter.format(input);
     assert_eq!(result, expected, "Comments are not changed.");
 }
+
+#[test]
+fn top_level_tag_is_not_indented() {
+    let input = "\
+    @tag
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let expected = "\
+@tag
+Feature: Guess the word
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let mut formatter = Formatter::default();
+    let result = formatter.format(input);
+    assert_eq!(
+        result, expected,
+        "A top level tag should have no indentation."
+    );
+}
+
+#[test]
+fn scenario_tag_is_indented() {
+    let input = "\
+Feature: Guess the word
+@tag
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let expected = "\
+Feature: Guess the word
+  @tag
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+";
+    let mut formatter = Formatter::default();
+    let result = formatter.format(input);
+    assert_eq!(
+        result, expected,
+        "A scenario tag should be intended to the same level as the scenario."
+    );
+}
