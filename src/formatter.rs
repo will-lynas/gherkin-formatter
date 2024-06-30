@@ -16,13 +16,13 @@ impl Formatter {
     }
 
     fn format_lines(&mut self) {
-        self.input
-            .as_ref()
-            .unwrap()
-            .split('\n')
-            .map(|line| line.trim_start())
-            .for_each(|line| {
-                let mut result_line = String::new();
+        let lines = self.input.as_ref().unwrap().split('\n');
+        for mut line in lines {
+            let mut result_line = String::new();
+            if line.trim_start().starts_with('#') {
+                result_line.push_str(line);
+            } else {
+                line = line.trim_start();
                 if line.starts_with("Feature:") {
                     result_line.push_str(line);
                 } else if line.starts_with("Scenario:") {
@@ -34,7 +34,8 @@ impl Formatter {
                 } else {
                     result_line.push_str(line);
                 }
-                self.result.push(result_line);
-            });
+            }
+            self.result.push(result_line);
+        }
     }
 }
