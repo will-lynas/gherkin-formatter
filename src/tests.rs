@@ -197,3 +197,27 @@ Feature: Guess the word
         "A scenario tag should be intended to the same level as the scenario."
     );
 }
+
+#[test]
+fn feature_with_body() {
+    let input = "\
+Feature: Guess the word
+
+The word guess game is a turn-based game for two players.
+The Maker makes a word for the Breaker to guess. The game
+is over when the Breaker guesses the Maker's word.
+";
+    let expected = "\
+Feature: Guess the word
+
+  The word guess game is a turn-based game for two players.
+  The Maker makes a word for the Breaker to guess. The game
+  is over when the Breaker guesses the Maker's word.
+";
+    let mut formatter = Formatter::default();
+    let result = formatter.format(input);
+    assert_eq!(
+        result, expected,
+        "A feature with a body should be indented correctly"
+    );
+}
