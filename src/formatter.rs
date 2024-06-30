@@ -6,7 +6,10 @@ enum Context {
     Rule,
     Scenario,
     Example,
+    Background,
 }
+
+const FINAL_CONTEXTS: [Context; 3] = [Context::Scenario, Context::Background, Context::Example];
 
 #[derive(Default)]
 pub struct Formatter {
@@ -47,22 +50,28 @@ impl Formatter {
             if line.starts_with("Feature:") {
                 new_context_stack.push(Context::Feature);
             } else if line.starts_with("Scenario:") {
-                if context_stack.last().unwrap() == &Context::Scenario {
+                if FINAL_CONTEXTS.contains(context_stack.last().unwrap()) {
                     context_stack.pop();
                 } else {
                     new_context_stack.push(Context::Scenario);
                 }
             } else if line.starts_with("Rule:") {
-                if context_stack.last().unwrap() == &Context::Rule {
+                if FINAL_CONTEXTS.contains(context_stack.last().unwrap()) {
                     context_stack.pop();
                 } else {
                     new_context_stack.push(Context::Rule);
                 }
             } else if line.starts_with("Example:") {
-                if context_stack.last().unwrap() == &Context::Example {
+                if FINAL_CONTEXTS.contains(context_stack.last().unwrap()) {
                     context_stack.pop();
                 } else {
                     new_context_stack.push(Context::Example);
+                }
+            } else if line.starts_with("Background:") {
+                if FINAL_CONTEXTS.contains(context_stack.last().unwrap()) {
+                    context_stack.pop();
+                } else {
+                    new_context_stack.push(Context::Background);
                 }
             }
 
