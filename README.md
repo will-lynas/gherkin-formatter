@@ -1,3 +1,7 @@
+> [!WARNING]
+>
+> This project is a work in progress. Features may be incomplete, and changes are ongoing. Use at your own risk!
+
 A stand alone binary that replicates how WebStorm formats `.feature` files.
 
 ### Behaviour
