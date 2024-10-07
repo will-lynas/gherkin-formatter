@@ -1,3 +1,5 @@
+# gherkin-formatter
+
 > [!WARNING]
 >
 > This project is a work in progress. Features may be incomplete, and changes are ongoing. Use at your own risk!
